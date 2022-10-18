@@ -32,7 +32,7 @@ pip install -r requirements.txt
 2. Start the container
 ```bash
 # from KST directory
-docker-compose -p kst-mysql-db -f docker/docker-compose.yml up -d
+docker-compose -p kst-mysql-db -f docker-compose.yml up -d
 ```
 To run the app you need to create `kst_db` database inside the MySQL container:
 ```bash
@@ -57,7 +57,7 @@ flask run
 ````
 #### 5. When you're done stop the app and container
 ```bash
-docker-compose -p kst-mysql-db -f docker/docker-compose.yml stop
+docker-compose -p kst-mysql-db -f docker-compose.yml stop
 # WARNING! If you run `docker-compose ... down` it will remove all images, networks, volumes etc.
 # For data persistence use `stop`.
 ```
@@ -85,71 +85,3 @@ npm install -g create-react-app
 ```bash
 npm start
 ```
-
-[//]: # (# DB SETUP - tests)
-
-[//]: # (```sql)
-
-[//]: # (CREATE DATABASE kst_db;)
-
-[//]: # (USE kst_db;)
-
-[//]: # ()
-[//]: # (-- create test table )
-
-[//]: # (CREATE TABLE People &#40;)
-
-[//]: # (    PersonID int,)
-
-[//]: # (    FirstName varchar&#40;255&#41;,)
-
-[//]: # (    LastName varchar&#40;255&#41;,)
-
-[//]: # (    Address varchar&#40;255&#41;,)
-
-[//]: # (    City varchar&#40;255&#41;)
-
-[//]: # (&#41;;)
-
-[//]: # ()
-[//]: # (-- insert sample data )
-
-[//]: # (INSERT INTO People VALUES )
-
-[//]: # (                       &#40;1, "John", "Doe", "213 Warsaw", "Warsaw"&#41;;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (# CREATE TABLES FROM app.py)
-
-[//]: # (```python)
-
-[//]: # (cd backend)
-
-[//]: # (python)
-
-[//]: # (from app import app, db)
-
-[//]: # (with app.app_context&#40;&#41;:)
-
-[//]: # (    db.create_all&#40;&#41;)
-
-[//]: # (# now all tables created in the app.py will be created in the database as tables)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # (## POWERSHELL ACTIVATE VENV:)
-
-[//]: # (```)
-
-[//]: # (cd backend)
-
-[//]: # (Set-ExecutionPolicy Unrestricted -Scope Process  )
-
-[//]: # (./venv/Scripts/activate)
-
-[//]: # (```)
