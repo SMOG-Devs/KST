@@ -5,20 +5,10 @@ from flask_cors import CORS
 
 from db_handlers import database_is_empty, table_exists
 
-
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+mysqldb://root:secret_password@localhost:3306/kst_db"
 db = SQLAlchemy(app)
 CORS(app)
-
-
-with app.app_context():
-    # check if db is empty
-    if database_is_empty(db):
-        # created all model tables defined in the app
-        db.create_all()
-    # check if 'event' model table has been created successfully
-    table_exists('event', db)
 
 
 class Event(db.Model):
@@ -31,6 +21,16 @@ class Event(db.Model):
 
     def __init__(self, description):
         self.description = description
+
+
+# create model tables if doesnt exist
+with app.app_context():
+    # check if db is empty
+    if database_is_empty(db):
+        # created all model tables defined in the app
+        db.create_all()
+    # check if 'event' model table has been created successfully
+    table_exists('event', db)
 
 
 @app.route('/')
