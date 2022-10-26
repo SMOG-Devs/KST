@@ -39,7 +39,7 @@ To run the app you need to create `kst_db` database inside the MySQL container:
 # open terminal inside the container
 docker exec -it kst-mysql-db bash
 # enter the MySQL console
-mysql -U root -p
+mysql -u root -p
 [ENTER PASSWORD](see `MySQL local db config` below)
 ```
 Now enter following SQL queries:
