@@ -23,7 +23,7 @@ class Event(db.Model):
         self.description = description
 
 
-# create model tables if doesnt exist
+# create model tables if not exist
 with app.app_context():
     # check if db is empty
     if database_is_empty(db):
