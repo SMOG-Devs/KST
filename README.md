@@ -18,12 +18,15 @@
 ```bash
 cd backend
 # create virtual environment
-python3 -m venv ./venv
+python -m venv ./venv
 # activate venv
 # LINUX:
 source venv/bin/activate
 # WINDOWS:
 ./venv/Scripts/activate
+# if you encounter "running scripts is disabled on this system" use this command and then ./venv/...
+Set-ExecutionPolicy -Scope "CurrentUser" -ExecutionPolicy "RemoteSigned"
+
 # install all requirements
 pip install -r requirements.txt
 ```
