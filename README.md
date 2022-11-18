@@ -88,3 +88,102 @@ npm install -g create-react-app
 ```bash
 npm start
 ```
+
+
+[//]: # (# DB SETUP - tests)
+
+[//]: # ()
+[//]: # (```sql)
+
+[//]: # ()
+[//]: # (CREATE DATABASE kst_db;)
+
+[//]: # ()
+[//]: # (USE kst_db;)
+
+[//]: # ()
+[//]: # ()
+[//]: # (-- create test table )
+
+[//]: # ()
+[//]: # (CREATE TABLE People &#40;)
+
+[//]: # ()
+[//]: # (    PersonID int,)
+
+[//]: # ()
+[//]: # (    FirstName varchar&#40;255&#41;,)
+
+[//]: # ()
+[//]: # (    LastName varchar&#40;255&#41;,)
+
+[//]: # ()
+[//]: # (    Address varchar&#40;255&#41;,)
+
+[//]: # ()
+[//]: # (    City varchar&#40;255&#41;)
+
+[//]: # ()
+[//]: # (&#41;;)
+
+[//]: # ()
+[//]: # ()
+[//]: # (-- insert sample data )
+
+[//]: # ()
+[//]: # (INSERT INTO People VALUES )
+
+[//]: # ()
+[//]: # (                       &#40;1, "John", "Doe", "213 Warsaw", "Warsaw"&#41;;)
+
+[//]: # ()
+[//]: # (```)
+
+[//]: # ()
+[//]: # ()
+[//]: # (# CREATE TABLES FROM app.py)
+
+[//]: # ()
+[//]: # (```python)
+
+[//]: # ()
+[//]: # (cd backend)
+
+[//]: # ()
+[//]: # (python)
+
+[//]: # ()
+[//]: # (from app import app, db)
+
+[//]: # ()
+[//]: # (with app.app_context&#40;&#41;:)
+
+[//]: # ()
+[//]: # (    db.create_all&#40;&#41;)
+
+[//]: # ()
+[//]: # (# now all tables created in the app.py will be created in the database as tables)
+
+[//]: # ()
+[//]: # (```)
+
+[//]: # ()
+[//]: # ()
+[//]: # ()
+[//]: # ()
+[//]: # (## POWERSHELL ACTIVATE VENV:)
+
+[//]: # ()
+[//]: # (```)
+
+[//]: # ()
+[//]: # (cd backend)
+
+[//]: # ()
+[//]: # (Set-ExecutionPolicy Unrestricted -Scope Process  )
+
+[//]: # ()
+[//]: # (./venv/Scripts/activate)
+
+[//]: # ()
+[//]: # (```)

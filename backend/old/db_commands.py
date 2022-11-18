@@ -1,6 +1,5 @@
 from app import db
 from sqlalchemy import inspect
-from app import app
 
 
 def create_db():
