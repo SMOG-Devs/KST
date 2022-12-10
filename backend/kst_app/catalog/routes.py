@@ -1,83 +1,18 @@
-import json
-from datetime import datetime
-from functools import wraps
-from flask import request, Blueprint, render_template, jsonify
-from my_app import db, app
-from my_app.catalog.models import Event, Sensor, Measurement, PredictedMeasurement, WeatherMeasurement
+from flask import request, Blueprint
+from kst_app import db, app
+from kst_app.catalog.models import Sensor, Measurement, PredictedMeasurement, WeatherMeasurement
 
 catalog = Blueprint('catalog', __name__)
 
 
-# @app.errorhandler(404)
-# def page_not_found(e):
-#     return render_template('404.html'), 404
-
-
-# ---------------------------------------------------
 @catalog.route('/')
 @catalog.route('/home')
 def hello():
     return "Hello world!"
 
 
-def format_event(event):
-    return {
-        "description": event.description,
-        "id": event.id,
-        "created_at": event.created_at
-    }
-
-
-# create an event
-@catalog.route('/events', methods=['POST'])
-def create_event():
-    description = request.json['description']
-    event = Event(description)
-    db.session.add(event)
-    db.session.commit()
-    return format_event(event)
-
-
-# get all events
-@catalog.route('/events', methods=['GET'])
-def get_events():
-    events = Event.query.order_by(Event.id.asc()).all()
-    event_list = []
-    for event in events:
-        event_list.append(format_event(event))
-    return {"events": event_list}
-
-
-# get single event
-@catalog.route('/events/<id>', methods=['GET'])
-def get_event(id):
-    event = Event.query.filter_by(id=id).one()
-    formatted_event = format_event(event)
-    return {"event": formatted_event}
-
-
-# delete event
-@catalog.route('/events/<id>', methods=['DELETE'])
-def delete_event(id):
-    event = Event.query.filter_by(id=id).one()
-    db.session.delete(event)
-    db.session.commit()
-    return f'Event (id {id} deleted!'
-
-
-# update event
-@catalog.route('/events/<id>', methods=['PUT'])
-def update_event(id):
-    event = Event.query.filter_by(id=id)
-    description = request.json['description']
-    event.update(dict(description=description, created_at=datetime.utcnow()))
-    db.session.commit()
-    return {'event': format_event(event.one())}
-
-
-# ------------------------
 #       Sensors
-# ------------------------
+
 def format_sensor(sensor):
     return {
         "id": sensor.id,
@@ -136,9 +71,7 @@ def update_sensor(id):
     return {'sensor': format_sensor(sensor.one())}
 
 
-# ------------------------
 #       Measurement
-# ------------------------
 def format_measurement(measurement):
     return {
         "id": measurement.id,
@@ -214,9 +147,7 @@ def update_measurement(id):
     return {'measurement': format_measurement(measurement.one())}
 
 
-# ------------------------
 #   Predicted measurement
-# ------------------------
 
 def format_predicted_measurement(predicted_measurement):
     return {
@@ -284,9 +215,7 @@ def update_predicted_measurement(id):
     return {'measurement': format_predicted_measurement(predicted_measurement.one())}
 
 
-# ------------------------
 #   Weather measurement
-# ------------------------
 
 def format_weather_measurement(weather_measurement):
     return {
@@ -364,8 +293,3 @@ def update_weather_measurement(id):
         date=date, sensor_id=sensor_id))
     db.session.commit()
     return {'weather_measurement': format_weather_measurement(weather_measurement.one())}
-
-
-# TODO: create CRUD analogically as for measurements for Sensors!
-# TODO: check if REST API for CRUD works and records
-#  are created, deleted, updated with the corresponding rest api requests
