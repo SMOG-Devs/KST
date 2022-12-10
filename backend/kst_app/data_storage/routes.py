@@ -1,12 +1,12 @@
 from flask import request, Blueprint
 from kst_app import db, app
-from kst_app.catalog.models import Sensor, Measurement, PredictedMeasurement, WeatherMeasurement
+from kst_app.data_storage.models import Sensor, Measurement, PredictedMeasurement, WeatherMeasurement
 
-catalog = Blueprint('catalog', __name__)
+data_storage = Blueprint('data_storage', __name__)
 
 
-@catalog.route('/')
-@catalog.route('/home')
+@data_storage.route('/')
+@data_storage.route('/home')
 def hello():
     return "Hello world!"
 
@@ -23,7 +23,7 @@ def format_sensor(sensor):
 
 
 # create a sensor
-@catalog.route('/sensor', methods=['POST'])
+@data_storage.route('/sensor', methods=['POST'])
 def create_sensor():
     longitude = request.json['longitude']
     latitude = request.json['latitude']
@@ -34,7 +34,7 @@ def create_sensor():
 
 
 # get all sensors
-@catalog.route('/sensors', methods=['GET'])
+@data_storage.route('/sensors', methods=['GET'])
 def get_sensors():
     sensors = Sensor.query.order_by(Sensor.id.asc()).all()
     sensors_list = []
@@ -44,7 +44,7 @@ def get_sensors():
 
 
 # get single sensor
-@catalog.route('/sensor/<id>', methods=['GET'])
+@data_storage.route('/sensor/<id>', methods=['GET'])
 def get_sensor(id):
     sensor = Sensor.query.filter_by(id=id).one()
     formatted_sensor = format_sensor(sensor)
@@ -52,7 +52,7 @@ def get_sensor(id):
 
 
 # delete sensor
-@catalog.route('/sensor/<id>', methods=['DELETE'])
+@data_storage.route('/sensor/<id>', methods=['DELETE'])
 def delete_sensor(id):
     sensor = Sensor.query.filter_by(id=id).one()
     db.session.delete(sensor)
@@ -61,7 +61,7 @@ def delete_sensor(id):
 
 
 # update sensor
-@catalog.route('/sensor/<id>', methods=['PUT'])
+@data_storage.route('/sensor/<id>', methods=['PUT'])
 def update_sensor(id):
     sensor = Sensor.query.filter_by(id=id)
     longitude = request.json['longitude']
@@ -87,7 +87,7 @@ def format_measurement(measurement):
 
 
 # create a measurement
-@catalog.route('/measurement', methods=['POST'])
+@data_storage.route('/measurement', methods=['POST'])
 def create_measurement():
     pm1 = request.json['pm1']
     pm25 = request.json['pm25']
@@ -104,7 +104,7 @@ def create_measurement():
 
 
 # get all measurements
-@catalog.route('/measurements', methods=['GET'])
+@data_storage.route('/measurements', methods=['GET'])
 def get_measurements():
     measurements = Measurement.query.order_by(Measurement.id.asc()).all()
     measurements_list = []
@@ -114,7 +114,7 @@ def get_measurements():
 
 
 # get single measurement
-@catalog.route('/measurement/<id>', methods=['GET'])
+@data_storage.route('/measurement/<id>', methods=['GET'])
 def get_measurement(id):
     measurement = Measurement.query.filter_by(id=id).one()
     formatted_measurement = format_measurement(measurement)
@@ -122,7 +122,7 @@ def get_measurement(id):
 
 
 # delete measurement
-@catalog.route('/measurement/<id>', methods=['DELETE'])
+@data_storage.route('/measurement/<id>', methods=['DELETE'])
 def delete_measurement(id):
     measurement = Measurement.query.filter_by(id=id).one()
     db.session.delete(measurement)
@@ -131,7 +131,7 @@ def delete_measurement(id):
 
 
 # update measurement
-@catalog.route('/measurement/<id>', methods=['PUT'])
+@data_storage.route('/measurement/<id>', methods=['PUT'])
 def update_measurement(id):
     measurement = Measurement.query.filter_by(id=id)
     pm1 = request.json['pm1']
@@ -142,7 +142,9 @@ def update_measurement(id):
     temperature = request.json['temperature']
     date = request.json['date']
     sensor_id = request.json['sensor_id']
-    measurement.update(dict(pm1=pm1, pm25=pm25, pm10=pm10, pressure=pressure, humidity=humidity, temperature=temperature, date=date, sensor_id=sensor_id))
+    measurement.update(
+        dict(pm1=pm1, pm25=pm25, pm10=pm10, pressure=pressure, humidity=humidity, temperature=temperature, date=date,
+             sensor_id=sensor_id))
     db.session.commit()
     return {'measurement': format_measurement(measurement.one())}
 
@@ -161,7 +163,7 @@ def format_predicted_measurement(predicted_measurement):
 
 
 # create a measurement
-@catalog.route('/predicted-measurement', methods=['POST'])
+@data_storage.route('/predicted-measurement', methods=['POST'])
 def create_predicted_measurement():
     pm1 = request.json['pm1']
     pm25 = request.json['pm25']
@@ -175,7 +177,7 @@ def create_predicted_measurement():
 
 
 # get all predicted measurements
-@catalog.route('/predicted-measurements', methods=['GET'])
+@data_storage.route('/predicted-measurements', methods=['GET'])
 def get_predicted_measurements():
     predicted_measurements = PredictedMeasurement.query.order_by(PredictedMeasurement.id.asc()).all()
     predicted_measurements_list = []
@@ -185,7 +187,7 @@ def get_predicted_measurements():
 
 
 # get single predicted measurement
-@catalog.route('/predicted-measurement/<id>', methods=['GET'])
+@data_storage.route('/predicted-measurement/<id>', methods=['GET'])
 def get_predicted_measurement(id):
     predicted_measurement = PredictedMeasurement.query.filter_by(id=id).one()
     formatted_measurement = format_predicted_measurement(predicted_measurement)
@@ -193,7 +195,7 @@ def get_predicted_measurement(id):
 
 
 # delete predicted measurement
-@catalog.route('/predicted-measurement/<id>', methods=['DELETE'])
+@data_storage.route('/predicted-measurement/<id>', methods=['DELETE'])
 def delete_predicted_measurement(id):
     predicted_measurement = PredictedMeasurement.query.filter_by(id=id).one()
     db.session.delete(predicted_measurement)
@@ -202,7 +204,7 @@ def delete_predicted_measurement(id):
 
 
 # update predicted measurement
-@catalog.route('/predicted-measurement/<id>', methods=['PUT'])
+@data_storage.route('/predicted-measurement/<id>', methods=['PUT'])
 def update_predicted_measurement(id):
     predicted_measurement = PredictedMeasurement.query.filter_by(id=id)
     pm1 = request.json['pm1']
@@ -232,7 +234,7 @@ def format_weather_measurement(weather_measurement):
 
 
 # create a weather measurement
-@catalog.route('/weather-measurement', methods=['POST'])
+@data_storage.route('/weather-measurement', methods=['POST'])
 def create_weather_measurement():
     temperature = request.json['temperature']
     humidity = request.json['humidity']
@@ -242,14 +244,15 @@ def create_weather_measurement():
     rainLevel = request.json['rainLevel']
     date = request.json['date']
     sensor_id = request.json['sensor_id']
-    weather_measurement = WeatherMeasurement(temperature, humidity, pressure, windSpeed, windDirection, rainLevel, date, sensor_id)
+    weather_measurement = WeatherMeasurement(temperature, humidity, pressure, windSpeed, windDirection, rainLevel, date,
+                                             sensor_id)
     db.session.add(weather_measurement)
     db.session.commit()
     return format_weather_measurement(weather_measurement)
 
 
 # get all weather measurements
-@catalog.route('/weather-measurements', methods=['GET'])
+@data_storage.route('/weather-measurements', methods=['GET'])
 def get_weather_measurements():
     weather_measurements = WeatherMeasurement.query.order_by(WeatherMeasurement.id.asc()).all()
     weather_measurements_list = []
@@ -259,7 +262,7 @@ def get_weather_measurements():
 
 
 # get single weather measurement
-@catalog.route('/weather-measurement/<id>', methods=['GET'])
+@data_storage.route('/weather-measurement/<id>', methods=['GET'])
 def get_weather_measurement(id):
     weather_measurement = WeatherMeasurement.query.filter_by(id=id).one()
     formatted_measurement = format_weather_measurement(weather_measurement)
@@ -267,7 +270,7 @@ def get_weather_measurement(id):
 
 
 # delete predicted measurement
-@catalog.route('/weather-measurement/<id>', methods=['DELETE'])
+@data_storage.route('/weather-measurement/<id>', methods=['DELETE'])
 def delete_weather_measurement(id):
     weather_measurement = WeatherMeasurement.query.filter_by(id=id).one()
     db.session.delete(weather_measurement)
@@ -276,7 +279,7 @@ def delete_weather_measurement(id):
 
 
 # update predicted measurement
-@catalog.route('/weather-measurement/<id>', methods=['PUT'])
+@data_storage.route('/weather-measurement/<id>', methods=['PUT'])
 def update_weather_measurement(id):
     weather_measurement = WeatherMeasurement.query.filter_by(id=id)
     temperature = request.json['temperature']
