@@ -1,3 +1,4 @@
-from my_app import app
+from kst_app import app
 
-app.run(debug=True)
+if __name__ == '__main__':
+    app.run()
