@@ -29,3 +29,4 @@ When you open Pull request section you will see that prompt will suggest you to 
 7. If everything is fine, reviewers will approve the changes. <br>
 ![img_17.png](img_17.png)
 8. If all reviewers approve the changes, feel free to merge the changes. Done.
+![img_1.png](img_1.png)
