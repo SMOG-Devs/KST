@@ -73,7 +73,7 @@ Database is set up. You can run the app now
 
 ````bash
 cd backend
-flask run
+python run.py
 ````
 
 #### 5. When you're done stop the app and container
