@@ -103,11 +103,14 @@ sudo apt install npm
 # https://nodejs.org/en/download/
 ```
 
-#### 2. Install React
+#### 2. Install React and dependencies
 
 ```
 npm install -g create-react-app  
+npm install
 ```
+
+
 
 #### 3. Run the frontend
 
