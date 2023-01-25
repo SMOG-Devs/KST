@@ -1,6 +1,6 @@
 from typing import List
 import numpy as np
-import backend.kst_app.data_storage.models as model
+import kst_app.data_storage.models as model
 
 
 def batch_sensor_data_day(measurment_list: List[model.Measurement]) -> np.array:

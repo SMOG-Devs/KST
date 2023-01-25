@@ -1,6 +1,7 @@
 from TFModel import model, load_model, save_model
-import backend.kst_app.data_processing as process
-from backend.kst_app.data_storage import models as m
+import kst_app.data_processing as process
+from kst_app.data_storage import models as m
+from backend.kst_app import app
 from typing import List, Tuple
 import numpy as np
 from datetime import datetime
@@ -33,4 +34,6 @@ def save_record(record: List[float], date: datetime):
     for i in range(0,len(record), 3):
         prediction = m.PredictedMeasurement(record[i], record[i+1], record[i+2], predicted_date, list_of_ids[i//3])
         list_of_predictions.append(prediction)
-    m.add_predicted_measurements(list_of_predictions)
+    with app.app_context():
+        m.add_predicted_measurements(list_of_predictions)
+

@@ -1,4 +1,4 @@
-from kst_app.data_storage.models import Sensor, add_sensors
+from kst_app.data_storage.models import Sensor, add_sensors, Measurement, add_measurements
 from kst_app import app
 import pickle
 
@@ -19,13 +19,15 @@ if __name__ == '__main__':
         list_of_sensors.append(sensor)
 
     with app.app_context():
-        add_sensors(sensors)
+        add_sensors(list_of_sensors)
 
 
-    # list_of_measurments = []
-    # for key, value in data.items():
-    #     for id, info in value.items():
-    #         measurment = Measurement(info[0], info[1], info[2], 0, 0, 0, key, id)
-    #         list_of_measurments.append(list_of_measurments)
-    #
-    # add_measurements(list_of_measurments)
+    list_of_measurments = []
+    for key, value in data.items():
+        for id, info in value.items():
+            measurment = Measurement(info[0], info[1], info[2], 0, 0, 0, key, id)
+            list_of_measurments.append(measurment)
+
+    with app.app_context():
+        add_measurements(list_of_measurments)
+
