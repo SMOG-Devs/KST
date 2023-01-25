@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from kst_app import db
+from backend.kst_app import db
 
 '''
 Sensors measuring the air quality. The data of sensors' measurements is extracted
@@ -11,6 +11,7 @@ is predicted by the prediction engine (neural network).
 
 
 class Sensor(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     longitude = db.Column(db.Float(precision=10))
     latitude = db.Column(db.Float(precision=10))
@@ -81,6 +82,7 @@ Measurements from the sensors placed all over the city.
 
 
 class Measurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     pm1 = db.Column(db.Float(precision=10))
     pm25 = db.Column(db.Float(precision=10))
@@ -176,6 +178,7 @@ In our case, the prediction engine is a neural network.
 
 
 class PredictedMeasurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     pm1 = db.Column(db.Float(precision=10))
     pm25 = db.Column(db.Float(precision=10))
@@ -254,6 +257,7 @@ Weather measurements from external API.
 
 
 class WeatherMeasurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     temperature = db.Column(db.Float(precision=10))
     humidity = db.Column(db.Float(precision=10))

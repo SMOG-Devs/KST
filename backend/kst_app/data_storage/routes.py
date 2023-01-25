@@ -1,5 +1,5 @@
 from flask import request, Blueprint
-from kst_app.data_storage.models import *
+from backend.kst_app.data_storage.models import *
 
 data_storage = Blueprint('data_storage', __name__)
 
