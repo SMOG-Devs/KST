@@ -1,0 +1,33 @@
+iframe[seamless] {
+    border: none;
+}
+
+.wrapper {
+/*    center */
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.map {
+    margin: auto;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+iframe {
+    height: 30vw;
+    width: 60vw;
+}

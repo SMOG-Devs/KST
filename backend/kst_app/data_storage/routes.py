@@ -16,6 +16,7 @@ def hello():
 @data_storage.route('/sensor', methods=['POST'])
 def add_sensor_route():
     added_sensor = add_sensor(
+        request.json['id'],
         request.json.get('longitude'),
         request.json.get('latitude')
     )

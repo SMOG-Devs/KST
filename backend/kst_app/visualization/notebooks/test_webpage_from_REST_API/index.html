@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="wrapper">
+        <h1>KST (Kraków Smog Tracker) - simple overview how to add Folium map into the web page</h1>
+        <div class="map">
+            <iframe class="map-frame">
+                <!--  -> here put iframe with heatmap visualisation (done in  JS file) -->
+
+                <!-- here's the heatmap retrieved from Flask REST api backend: http://127.0.0.1:5000/heatmap -->
+            </iframe>
+        </div>
+        <div class="plot">
+            <!-- here plots can be placed -->
+        </div>
+    </div>
+</body>
+</html>
