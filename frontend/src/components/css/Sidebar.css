@@ -1,0 +1,22 @@
+.nav-style{
+    height: 100vh;
+}
+
+.icon {
+    color: #2B303A;
+    font-size: 10px;
+    margin: 10px 10px 10px 10px;
+}
+
+.sideNavElement {
+    color: #000;
+}
+
+.sidenav---sidenav-subnav---1EN61{
+    background: rgb(103, 96, 96);
+    min-width: 270px;
+}
+
+p{
+    font-size: large;
+}

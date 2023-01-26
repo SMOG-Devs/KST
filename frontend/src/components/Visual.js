@@ -37,7 +37,7 @@ function Visual(props) {
                         <input type="date" name="start_date"/>
                         <label for="end_date">End date:</label>
                         <input type="date" name="end_date"/>
-                        <input type="submit" value="Submit"/>
+                        <input type="submit" style={{"background":"#e72929"}} value="Submit"/>
                     </form>
                     <div class="map">
                     </div>
