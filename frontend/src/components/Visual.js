@@ -5,8 +5,8 @@ import {getHeatmap} from "./VisualScript.js";
 
 function Visual(props) {
     const [visualisation, setVisualisation] = useState(null);
-    const [start_date, setStartDate] = useState(null);
-    const [end_date, setEndDate] = useState(null);
+    const [start_date, setStartDate] = useState('None');
+    const [end_date, setEndDate] = useState('None');
     useEffect(() => {
         (async () => {
             const data = await getHeatmap(start_date, end_date);

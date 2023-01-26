@@ -20,7 +20,8 @@ class Sensor(db.Model):
     predicted_measurements = db.relationship('PredictedMeasurement', backref='sensor', lazy=True)
     weather_measurement = db.relationship('WeatherMeasurement', backref='sensor', lazy=True)
 
-    def __init__(self, longitude, latitude):
+    def __init__(self, id, longitude, latitude):
+        self.id = id
         self.longitude = longitude
         self.latitude = latitude
 
@@ -33,8 +34,8 @@ class Sensor(db.Model):
         }
 
 
-def add_sensor(longitude: float, latitude: float) -> Sensor:
-    sensor = Sensor(longitude, latitude)
+def add_sensor(id: int, longitude: float, latitude: float) -> Sensor:
+    sensor = Sensor(id, longitude, latitude)
     db.session.add(sensor)
     db.session.commit()
     return sensor
