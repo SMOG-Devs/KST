@@ -13,3 +13,4 @@ app.register_blueprint(data_storage)
 
 with app.app_context():
     db.create_all()
+

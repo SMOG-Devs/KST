@@ -11,6 +11,7 @@ is predicted by the prediction engine (neural network).
 
 
 class Sensor(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     longitude = db.Column(db.Float(precision=10))
     latitude = db.Column(db.Float(precision=10))
@@ -81,6 +82,7 @@ Measurements from the sensors placed all over the city.
 
 
 class Measurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     pm1 = db.Column(db.Float(precision=10))
     pm25 = db.Column(db.Float(precision=10))
@@ -135,7 +137,13 @@ def get_measurement(measurement_id: int) -> Measurement:
 
 
 def get_all_measurements() -> List[Measurement]:
-    return Measurement.query.all()
+    return Measurement.query.order_by(Measurement.date, Measurement.sensor_id).all()
+
+
+def delete_all_measurements() -> int:
+    deleted = Measurement.query.delete()
+    db.session.commit()
+    return deleted
 
 
 def delete_measurement(measurement_id: int) -> Measurement:
@@ -176,6 +184,7 @@ In our case, the prediction engine is a neural network.
 
 
 class PredictedMeasurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     pm1 = db.Column(db.Float(precision=10))
     pm25 = db.Column(db.Float(precision=10))
@@ -221,7 +230,7 @@ def get_predicted_measurement(measurement_id: int) -> PredictedMeasurement:
 
 
 def get_all_predicted_measurements() -> List[PredictedMeasurement]:
-    return PredictedMeasurement.query.all()
+    return PredictedMeasurement.query.order_by(PredictedMeasurement.date, PredictedMeasurement.sensor_id).all()
 
 
 def delete_predicted_measurement(measurement_id: int) -> PredictedMeasurement:
@@ -229,6 +238,12 @@ def delete_predicted_measurement(measurement_id: int) -> PredictedMeasurement:
     db.session.delete(predicted_measurement)
     db.session.commit()
     return predicted_measurement
+
+
+def delete_all_predicted_measurements() -> List[PredictedMeasurement]:
+    deleted = PredictedMeasurement.query.delete()
+    db.session.commit()
+    return deleted
 
 
 def update_predicted_measurement(measurement_id: int, pm1: float, pm25: float, pm10: float,
@@ -254,6 +269,7 @@ Weather measurements from external API.
 
 
 class WeatherMeasurement(db.Model):
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True)
     temperature = db.Column(db.Float(precision=10))
     humidity = db.Column(db.Float(precision=10))
@@ -310,7 +326,9 @@ def get_weather_measurement(measurement_id: int) -> WeatherMeasurement:
 
 
 def get_all_weather_measurements() -> List[WeatherMeasurement]:
-    return WeatherMeasurement.query.all()
+    deleted =  WeatherMeasurement.query.order_by(WeatherMeasurement.date).all()
+    db.session.commit()
+    return deleted
 
 
 def delete_weather_measurement(measurement_id: int) -> WeatherMeasurement:
@@ -318,6 +336,10 @@ def delete_weather_measurement(measurement_id: int) -> WeatherMeasurement:
     db.session.delete(weather_measurement)
     db.session.commit()
     return weather_measurement
+
+
+def delete_all_weather_measurement() -> int:
+    return WeatherMeasurement.query.delete()
 
 
 def update_weather_measurement(measurement_id: int, temperature: float, humidity: float, pressure: float,
