@@ -1,8 +1,8 @@
 from typing import List
-import backend.kst_app.data_storage.models as m
+from kst_app.data_storage.models import get_all_sensors
 
 
 def mine_ids_sorted() -> List[int]:
-    sensors = m.get_all_sensors()
+    sensors = get_all_sensors()
     sensors = sorted(sensors, key=lambda sensor: sensor.id)
     return [sensor.id for sensor in sensors]
