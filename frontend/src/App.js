@@ -3,14 +3,17 @@ import 'leaflet/dist/leaflet.css'
 import './components/css/App.css';
 import Sidebar from './components/Sidebar.js';
 import KrakowMap from './components/KrakowMap.js';
+import Visual from "./components/Visual";
+
 
 export default function App() {
-  return (
-    <div style={{ position: 'relative' }}>
-      <div style={{ left: 'auto', position: 'absolute', 'background-color': '#fff' }}>
-        <Sidebar />
-      </div>
-      <KrakowMap />
-    </div>
-  );
+    return (
+        <div style={{position: 'relative'}}>
+            <div style={{left: 'auto', position: 'absolute', 'background-color': '#fff'}}>
+                <Sidebar/>
+            </div>
+            {/*<KrakowMap/>*/}
+            <Visual trigger={true}/>
+        </div>
+    );
 }
