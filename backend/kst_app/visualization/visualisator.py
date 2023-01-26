@@ -6,6 +6,46 @@ from datetime import datetime, timedelta
 from kst_app.data_storage.models import Measurement, Sensor
 from kst_app import app
 
+import numpy as np
+from scipy.interpolate import Rbf, RBFInterpolator
+
+
+
+
+def scipy_idw(x, y, z, xi, yi):
+    c = np.concatenate((x[:,None], y[:,None]), axis=1)
+    t = RBFInterpolator(c, z)
+    rs = t(np.vstack((xi, yi)).T)
+
+    interp = Rbf(x, y, z, function='linear')
+    # return interp(xi, yi)
+    return t(np.concatenate((xi[:,None], yi[:,None]), axis=1))
+def interpolate_pm(pm_data):
+    heatmap = []
+    for i in range(len(pm_data)):
+        xn, yn, zn = zip(*pm_data[i])
+        print(pm_data[i])
+        xn = np.asarray(xn)
+        yn = np.asarray(yn)
+        zn = np.asarray(zn)
+        nx, ny = len(xn), len(yn)
+        xi = np.linspace(xn.min(), xn.max(), nx)
+        yi = np.linspace(yn.min(), yn.max(), ny)
+        xi, yi = np.meshgrid(xi, yi)
+        xi, yi = xi.flatten(), yi.flatten()
+        gridn = scipy_idw(xn, yn, zn, xi, yi)
+        gridn = gridn.reshape((ny, nx))
+
+
+        # convert into list of (x, y, z)
+        data = []
+        for i in range(nx):
+            for j in range(ny):
+                data.append([xi[i], yi[j], gridn[i][j]])
+        heatmap.append(data)
+    return heatmap
+
+
 
 def create_heatmap(start_date: str = None, end_date: str = None):
     print(f'Start: {start_date}, end: {end_date}')
@@ -57,13 +97,14 @@ def create_heatmap(start_date: str = None, end_date: str = None):
             temp.append([record['longitude'], record['latitude'], record['PM1']])
         pm1_data.append(temp)
 
+    heatmap = interpolate_pm(pm1_data)
     # create normal map
     krakow_coords = [50.0496863, 19.944544]
     map_krakow = folium.Map(krakow_coords, zoom_start=13)
 
     # create heatmap
     hm = plugins.HeatMapWithTime(
-        pm1_data,
+        heatmap,
         display_index=True,
         index=air_df['timestamp'].apply(lambda timestamp: str(timestamp)).unique().tolist(),
         auto_play=True,
